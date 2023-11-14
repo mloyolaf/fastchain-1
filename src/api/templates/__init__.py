@@ -1,21 +1,31 @@
-from fastapi import APIRouter
-from api.templates.template import router as prompt_router
-from api.templates.dataclasses import Prompts
-import utils.template
+from fastapi import APIRouter, Depends
+from api.templates.template import router as template_router
+from api.templates import dataclasses
+from db.orm import models
+from db.orm import get_db
 import os
+from sqlalchemy import select
+from sqlalchemy.orm import Session
 
 path = os.path.basename(os.path.dirname(os.path.realpath(__file__)))
 
 router = APIRouter(
-    prefix=f"/{path}"
+    prefix=f"/{path}",
+    tags=[path]
+    
 )
 
-router.include_router(prompt_router)
+router.include_router(template_router)
 
-@router.get("/")
-async def read():
-    return { "path": path }
+@router.get("/", response_model=list[dataclasses.ReadResponse])
+async def templates_read(db: Session = Depends(get_db)):
+    stmt = select(models.Template)
+    return [dataclasses.ReadResponse.from_orm(row) for row in db.scalars(stmt)]
 
-@router.post("/")
-async def create(prompts: Prompts):
-    return utils.template.create_template(prompts)
+@router.post("/", response_model=dataclasses.CreateResponse)
+async def template_create(template: dataclasses.CreateRequest, db: Session = Depends(get_db)):
+    instance = models.Template(**template.model_dump())
+    db.add(instance)
+    db.commit()
+    db.refresh(instance)
+    return dataclasses.CreateResponse.from_orm(instance)#utils.template.create_template(templates)

@@ -1,4 +1,4 @@
-from api.templates.dataclasses import Prompts
+from api.templates.dataclasses import Templates
 from langchain.prompts.chat import (
     ChatPromptTemplate,
     SystemMessagePromptTemplate,
@@ -6,17 +6,17 @@ from langchain.prompts.chat import (
     HumanMessagePromptTemplate,
 )
 
-def create_template(prompts: Prompts) -> ChatPromptTemplate:
-    templates = []
-    for template in prompts.templates:
-        if template.prompt_type == "human":
-            templates.append(HumanMessagePromptTemplate.from_template(template.content))
-        elif template.prompt_type == "system":
-            templates.append(SystemMessagePromptTemplate.from_template(template.content))
+def create_template(templates: Templates) -> ChatPromptTemplate:
+    all_templates = []
+    for template in templates.templates:
+        if template.template_type == "human":
+            all_templates.append(HumanMessagePromptTemplate.from_template(template.template))
+        elif template.template_type == "system":
+            all_templates.append(SystemMessagePromptTemplate.from_template(template.template))
         else:
-            templates.append(AIMessagePromptTemplate.from_template(template.content))
+            all_templates.append(AIMessagePromptTemplate.from_template(template.template))
         
-    chat_prompt = ChatPromptTemplate.from_messages(templates)
+    chat_prompt = ChatPromptTemplate.from_messages(all_templates)
     return chat_prompt
 
 def popul8_template():
