@@ -46,20 +46,26 @@ class CreateResponse(BaseModel):
         default=...,
         description="Id of the created template"
     )
+    class Config:
+        from_attributes = True
 
 class UpdateRequest(BaseModel):
     template: Optional[str] = Field(
+        default=None,
         description="System template"
     )
     template_type: Optional[Literal["human", "system", "ai"]] = Field(
-        default=...,
+        default=None,
         examples=["human", "system", "ai"],
         description="Type for the template"
     )
     template_id: Optional[int] = Field(
+        default=None,
         description="ID of the next template in the flow."
     )
-
+    class Config:
+        from_attributes = True
+    
 class Templates(BaseModel):
     templates: List[ReadResponse] = Field(
         default=...,

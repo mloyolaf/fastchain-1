@@ -41,5 +41,5 @@ class Database:
         
 async def get_db():
     with Database() as db:
-        db.execute(text("PRAGMA foreign_keys = ON;"))
+        #db.execute(text("PRAGMA foreign_keys = ON;"))
         yield db
