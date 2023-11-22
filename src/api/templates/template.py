@@ -21,7 +21,7 @@ async def template_update(template_id, template: dataclasses.UpdateRequest, db: 
     stmt = (
         update(models.Template)
         .where(models.Template.id == template_id)
-        .values(template.model_dump())
+        .values({key: val for key, val in template.model_dump().items() if val is not None})
         #.returning(models.Template) not supported in sqlite < 3.35
     )
     db.execute(stmt)
