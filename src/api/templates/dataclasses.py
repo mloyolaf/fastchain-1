@@ -4,39 +4,51 @@ from pydantic import BaseModel, Field
 #create_model("Response", id=(int, ...), __base__=dataclasses.Template)
 
 class ReadResponse(BaseModel):
-    template: str = Field(
-        default=...,
-        description="System template"
-    )
-    template_type: Literal["human", "system", "ai"] = Field(
-        default=...,
-        description="Type for the template"
-    )
-    template_id: Optional[int] = Field(
-        default=None,
-        description="ID of the next template in the flow."
-    )
     id: int = Field(
         default=...,
         description="Id of the updated template"
+    )
+    description: Optional[str] = Field(
+        default=None,
+        description="Description usage of temaplate"
+    )
+    system_template: str = Field(
+        default=...,
+        description="Set up agent personality.",
+        examples=["You are a very {personality} assistant who answers in a very {tone} way."],
+    )
+    human_template: str = Field(
+        default=...,
+        description="User question.",
+        examples=["{input}"],
+    )
+    ai_template: str = Field(
+        default=...,
+        description="Agent response.",
+        examples=["{output}"],
     )
     class Config:
         from_attributes = True
 
 class CreateRequest(BaseModel):
-    template: str = Field(
-        default="{text}",
-        examples=["You are a very {personality} assistant who answers in a very {tone} way."],
-        description="System template"
-    )
-    template_type: Literal["human", "system", "ai"] = Field(
-        default=...,
-        examples=["human", "system", "ai"],
-        description="Type for the template"
-    )
-    template_id: Optional[int] = Field(
+    description: Optional[str] = Field(
         default=None,
-        description="ID of the next template in the flow."
+        description="Description usage of temaplate"
+    )
+    system_template: str = Field(
+        default=...,
+        description="Set up agent personality.",
+        examples=["You are a very {personality} assistant who answers in a very {tone} way."],
+    )
+    human_template: str = Field(
+        default="{input}",
+        description="User question.",
+        examples=["{input}"],
+    )
+    ai_template: str = Field(
+        default="{output}",
+        description="Agent response.",
+        examples=["{output}"],
     )
     class Config:
         from_attributes = True
@@ -50,18 +62,24 @@ class CreateResponse(BaseModel):
         from_attributes = True
 
 class UpdateRequest(BaseModel):
-    template: Optional[str] = Field(
+    description: Optional[str] = Field(
         default=None,
-        description="System template"
+        description="Description usage of temaplate"
     )
-    template_type: Optional[Literal["human", "system", "ai"]] = Field(
-        default=None,
-        examples=["human", "system", "ai"],
-        description="Type for the template"
+    system_template: Optional[str] = Field(
+        default=...,
+        description="Set up agent personality.",
+        examples=["You are a very {personality} assistant who answers in a very {tone} way."],
     )
-    template_id: Optional[int] = Field(
-        default=None,
-        description="ID of the next template in the flow."
+    human_template: Optional[str] = Field(
+        default="{input}",
+        description="User question.",
+        examples=["{input}"],
+    )
+    ai_template: Optional[str] = Field(
+        default=...,
+        description="Agent response.",
+        examples=["{output}"],
     )
     class Config:
         from_attributes = True
