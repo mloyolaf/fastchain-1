@@ -1,8 +1,9 @@
 from fastapi import APIRouter, Depends
+from dotenv import load_dotenv
 from langchain.schema import AIMessage, HumanMessage
-from api.models  import router as models_router
-from api.context import router as context_router
-from api.templates import router as prompts_router
+from src.api.models  import router as models_router
+from src.api.context import router as context_router
+from src.api.templates import router as prompts_router
 from src.api.dataclasses import ChatRequest, VariableClassifier
 from src.db.orm.models import Template
 from src.db.orm import get_db
@@ -35,6 +36,8 @@ router.include_router(models_router)
 router.include_router(prompts_router)
 router.include_router(context_router)
 
+load_dotenv() 
+api_key = os.getenv('OPENAI_API_KEY')
 model = AzureChatOpenAI(temperature=0, deployment_name="chat")
 
 @router.get("/")

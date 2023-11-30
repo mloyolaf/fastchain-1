@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends
-from api.templates.template import router as template_router
-from api.templates import dataclasses
-from db.orm import models
-from db.orm import get_db
+from src.api.templates.template import router as template_router
+from src.api.templates import dataclasses
+from src.db.orm import models
+from src.db.orm import get_db
 import os
 from sqlalchemy import select
 from sqlalchemy.orm import Session

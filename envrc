@@ -1,0 +1,10 @@
+layout pyenv 3.11.6
+export TEST="1234"
+# Set this to `azure`
+export OPENAI_API_TYPE=azure
+# The API version you want to use: set this to `2023-05-15` for the released version.
+export OPENAI_API_VERSION=2023-07-01-preview
+# The base URL for your Azure OpenAI resource.  You can find this in the Azure portal under your Azure OpenAI resource.
+export OPENAI_API_BASE=https://oai0wmp6b.openai.azure.com/
+# The API key for your Azure OpenAI resource.  You can find this in the Azure portal under your Azure OpenAI resource.
+export OPENAI_API_KEY=28700a900c354fb69451ac66131efeb6

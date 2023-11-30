@@ -1,6 +1,6 @@
 from typing import Annotated
 from fastapi import Path, Body
-from api.templates.dataclasses import (
+from src.api.templates.dataclasses import (
     Variable, Variables
 )
 
